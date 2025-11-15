@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bojot Seuhah</title>
+    <style>
+        /* Tambahkan CSS untuk logo */
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #ee5a24;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-title {
+            color: #ee5a24;
+            font-size: 1.8em;
+            font-weight: bold;
+            line-height: 1;
+        }
+
+        .logo-subtitle {
+            color: #666;
+            font-size: 0.9em;
+            margin-top: 2px;
+        }
+
+        /* CSS yang sudah ada sebelumnya */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-btn {
+            background: #ee5a24;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s;
+        }
+
+        .cart-btn:hover {
+            background: #c0392b;
+            transform: scale(1.05);
+        }
+
+        .cart-count {
+            background: white;
+            color: #ee5a24;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            transition: transform 0.3s;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 20px;
+        }
+
+        .product-name {
+            font-size: 1.3em;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .spicy-level {
+            display: flex;
+            gap: 5px;
+            margin: 10px 0;
+        }
+
+        .flame {
+            color: #ff6b6b;
+            font-size: 20px;
+        }
+
+        .flame.inactive {
+            color: #ddd;
+        }
+
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin: 10px 0;
+            color: #f39c12;
+        }
+
+        .price {
+            font-size: 1.5em;
+            color: #ee5a24;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: #ee5a24;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #c0392b;
+        }
+
+        .btn-secondary {
+            background: #3498db;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #2980b9;
+        }
+
+        .btn-whatsapp {
+            background: #25D366;
+            color: white;
+        }
+
+        .btn-whatsapp:hover {
+            background: #128C7E;
+        }
+
+        .btn-share {
+            background: #9b59b6;
+            color: white;
+        }
+
+        .btn-share:hover {
+            background: #8e44ad;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 30px;
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .quantity-btn {
+            background: #ee5a24;
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .delete-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .total {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #ee5a24;
+            text-align: right;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid #eee;
+        }
+
+        .payment-methods {
+            display: grid;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .payment-option {
+            border: 2px solid #ddd;
+            padding: 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .payment-option:hover {
+            border-color: #ee5a24;
+        }
+
+        .payment-option.selected {
+            border-color: #ee5a24;
+            background: #fff5f5;
+        }
+
+        /* WhatsApp Floating Button */
+        .whatsapp-float {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            bottom: 25px;
+            right: 25px;
+            background-color: #25D366;
+            color: white;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .whatsapp-float:hover {
+            background-color: #128C7E;
+            transform: scale(1.1);
+        }
+
+        /* WhatsApp Modal */
+        .whatsapp-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .whatsapp-modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .whatsapp-modal-content {
+            background: white;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 100%;
+            padding: 30px;
+            position: relative;
+        }
+
+        .whatsapp-options {
+            display: grid;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .whatsapp-option {
+            border: 2px solid #ddd;
+            padding: 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .whatsapp-option:hover {
+            border-color: #25D366;
+        }
+
+        .whatsapp-option.selected {
+            border-color: #25D366;
+            background: #f0fff4;
+        }
+
+        /* Share Modal */
+        .share-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .share-modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .share-modal-content {
+            background: white;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 100%;
+            padding: 30px;
+            position: relative;
+        }
+
+        .share-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .share-option {
+            border: 2px solid #ddd;
+            padding: 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            text-align: center;
+        }
+
+        .share-option:hover {
+            border-color: #9b59b6;
+        }
+
+        .share-icon {
+            font-size: 30px;
+        }
+
+        /* About Us Section */
+        .about-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+
+        .about-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .about-title {
+            color: #ee5a24;
+            font-size: 2.2em;
+            margin-bottom: 10px;
+        }
+
+        .about-subtitle {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .info-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            border-left: 4px solid #ee5a24;
+        }
+
+        .info-card h3 {
+            color: #ee5a24;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-card p {
+            margin-bottom: 10px;
+            color: #555;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 0;
+        }
+
+        .contact-icon {
+            font-size: 20px;
+            width: 30px;
+            text-align: center;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #555;
+            transition: all 0.3s;
+        }
+
+        .social-link:hover {
+            background: #ee5a24;
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .btn-group {
+                flex-direction: column;
+            }
+            
+            .logo-container {
+                justify-content: center;
+            }
+
+            .share-options {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+
+            .social-links {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo-container">
+                <img src="bj.jpg" alt="Bojot Seuhah" class="logo">
+                <div class="logo-text">
+                    <div class="logo-title">Bojot Seuhah</div>
+                    <div class="logo-subtitle">Makanan Pedas Nendang</div>
+                </div>
+            </div>
+            <div style="display: flex; gap: 15px;">
+                <button class="btn btn-whatsapp" onclick="openWhatsAppModal()">
+                    💬 WhatsApp
+                </button>
+                <button class="cart-btn" onclick="toggleCart()">
+                    🛒 Keranjang
+                    <span class="cart-count" id="cartCount">0</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Products Section -->
+        <div class="products-grid" id="productsGrid"></div>
+
+        <!-- About Us Section (di bagian bawah) -->
+        <div class="about-section">
+            <div class="about-header">
+                <h1 class="about-title">Informasi Toko</h1>
+                <p class="about-subtitle">Bojot Seuhah - Makanan Pedas Nendang</p>
+            </div>
+            <div class="about-content">
+                <div class="info-card">
+                    <h3>🕒 Jam Operasional</h3>
+                    <p><strong>Senin - Jumat:</strong> 09:00 - 17:30 WIB</p>
+                    <p><em>*Hari libur nasional tutup</em></p>
+                </div>
+                
+                <div class="info-card">
+                    <h3>📍 Alamat Toko</h3>
+                    <p><strong>Bojot Seuhah</strong></p>
+                    <p>Jl. Laladon, Bogor</p>
+                    <p>Jawa Barat, Indonesia</p>
+                    <p><em>Lokasi strategis </em></p>
+                </div>
+                
+                <div class="info-card">
+                    <h3>📞 Kontak Kami</h3>
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <span class="contact-icon">📱</span>
+                            <div>
+                                <strong>WhatsApp</strong>
+                                <div>0896-0288-2098</div>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <span class="contact-icon">📞</span>
+                            <div>
+                                <strong>Telepon</strong>
+                                <div>(0251) 123456</div>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <span class="contact-icon">📧</span>
+                            <div>
+                                <strong>Email</strong>
+                                <div>bojotseuhah@gmail.com</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="info-card">
+                    <h3>💬 Media Sosial</h3>
+                    <p>Ikuti kami di media sosial untuk update terbaru:</p>
+                    <div class="social-links">
+                        <a href="https://instagram.com/bojotseuhah" class="social-link" target="_blank">
+                            <span>📷</span> Instagram
+                        </a>
+                        <a href="https://facebook.com/bojotseuhah" class="social-link" target="_blank">
+                            <span>📘</span> Facebook
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="info-card">
+                    <h3>🚚 Layanan</h3>
+                    <p><strong>✅ Take Away</strong> - Ambil langsung di toko</p>
+                    <p><strong>✅ Delivery</strong> - Antar ke lokasi (area terbatas)</p>
+                    <p><strong>✅ Pre-Order</strong> - Pesan minimal 2 jam sebelumnya</p>
+                </div>
+                
+                <div class="info-card">
+                    <h3>💳 Metode Pembayaran</h3>
+                    <p><strong>💵 Tunai</strong> - Bayar di tempat</p>
+                    <p><strong>💚 GoPay</strong> - Transfer via GoPay</p>
+                    <p><strong>🟣 OVO</strong> - Transfer via OVO</p>
+                    <p><strong>🔵 DANA</strong> - Transfer via DANA</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Floating WhatsApp Button -->
+        <a href="#" class="whatsapp-float" onclick="openWhatsAppModal(); return false;">
+            💬
+        </a>
+
+        <!-- WhatsApp Modal -->
+        <div class="whatsapp-modal" id="whatsappModal">
+            <div class="whatsapp-modal-content">
+                <button class="close-btn" onclick="closeWhatsAppModal()">×</button>
+                <h2 style="margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
+                    <span style="color: #25D366; font-size: 30px;">💬</span> Hubungi Kami via WhatsApp
+                </h2>
+                <p style="margin-bottom: 20px; color: #666;">
+                    Pilih opsi di bawah ini untuk menghubungi kami melalui WhatsApp
+                </p>
+                <div class="whatsapp-options">
+                    <div class="whatsapp-option" onclick="openWhatsApp('consultation')">
+                        <span style="font-size: 30px;">❓</span>
+                        <div>
+                            <strong>Konsultasi Menu</strong>
+                            <div style="font-size: 12px; color: #666;">Tanya tentang menu dan level pedas</div>
+                        </div>
+                    </div>
+                    <div class="whatsapp-option" onclick="openWhatsApp('order')">
+                        <span style="font-size: 30px;">🛒</span>
+                        <div>
+                            <strong>Pesan Langsung</strong>
+                            <div style="font-size: 12px; color: #666;">Pesan makanan langsung via WhatsApp</div>
+                        </div>
+                    </div>
+                    <div class="whatsapp-option" onclick="openWhatsApp('complaint')">
+                        <span style="font-size: 30px;">📝</span>
+                        <div>
+                            <strong>Keluhan & Saran</strong>
+                            <div style="font-size: 12px; color: #666;">Sampaikan keluhan atau saran</div>
+                        </div>
+                    </div>
+                    <div class="whatsapp-option" onclick="openWhatsApp('other')">
+                        <span style="font-size: 30px;">💬</span>
+                        <div>
+                            <strong>Lainnya</strong>
+                            <div style="font-size: 12px; color: #666;">Pertanyaan lain tentang toko kami</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Keranjang -->
+        <div class="modal" id="cartModal">
+            <div class="modal-content">
+                <button class="close-btn" onclick="toggleCart()">×</button>
+                <h2 style="margin-bottom: 20px;">Keranjang Belanja</h2>
+                <div id="cartItems"></div>
+                <div class="total" id="cartTotal">Total: Rp 0</div>
+                <div class="btn-group">
+                    <button class="btn btn-whatsapp" onclick="sendOrderViaWhatsApp()">
+                        💬 Pesan via WhatsApp
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Bagikan Produk -->
+        <div class="share-modal" id="shareModal">
+            <div class="share-modal-content">
+                <button class="close-btn" onclick="closeShareModal()">×</button>
+                <h2 style="margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
+                    <span style="color: #9b59b6; font-size: 30px;">📤</span> Bagikan Produk
+                </h2>
+                <p style="margin-bottom: 20px; color: #666;">
+                    Pilih platform untuk membagikan produk ini
+                </p>
+                <div class="share-options">
+                    <div class="share-option" onclick="shareProduct('whatsapp')">
+                        <span class="share-icon" style="color: #25D366;">💚</span>
+                        <div>
+                            <strong>WhatsApp</strong>
+                        </div>
+                    </div>
+                    <div class="share-option" onclick="shareProduct('facebook')">
+                        <span class="share-icon" style="color: #1877F2;">📘</span>
+                        <div>
+                            <strong>Facebook</strong>
+                        </div>
+                    </div>
+                    <div class="share-option" onclick="shareProduct('twitter')">
+                        <span class="share-icon" style="color: #1DA1F2;">🐦</span>
+                        <div>
+                            <strong>Twitter</strong>
+                        </div>
+                    </div>
+                    <div class="share-option" onclick="shareProduct('instagram')">
+                        <span class="share-icon" style="color: #E4405F;">📷</span>
+                        <div>
+                            <strong>Instagram</strong>
+                        </div>
+                    </div>
+                    <div class="share-option" onclick="shareProduct('telegram')">
+                        <span class="share-icon" style="color: #0088cc;">✈️</span>
+                        <div>
+                            <strong>Telegram</strong>
+                        </div>
+                    </div>
+                    <div class="share-option" onclick="copyProductLink()">
+                        <span class="share-icon" style="color: #666;">📋</span>
+                        <div>
+                            <strong>Salin Link</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data produk dan variabel lainnya
+        let foods = [
+            {
+                id: 1,
+                name: 'Cimol Bojot',
+                price: 7000,
+                image: 'bjt.jpg',
+                spicyLevel: 3,
+                rating: 4.5,
+                totalRatings: 128,
+                description: 'Cimol yang pedasnya seuhaCimol gurih khas Bojot dengan tekstur garing di luar dan kenyal di dalam. Dibumbui rempah pedas nagih yang bikin susah berhenti!'
+            },
+            {
+                id: 2,
+                name: 'Otak-Otak Bojot',
+                price: 7000,
+                image: 'otk.jpg',
+                spicyLevel: 2,
+                rating: 4.8,
+                totalRatings: 256,
+                description: 'Otak-otak lembut dengan rasa ikan yang kuat, dibalut bumbu Bojot yang bikin nagih'
+            },
+            {
+                id: 3,
+                name: 'Cimol Keju Lumer',
+                price: 10000,
+                image: 'https://images.unsplash.com/photo-1512058564366-18510be2db19?w=400',
+                spicyLevel: 1,
+                rating: 4.6,
+                totalRatings: 89,
+                description: 'Cimol kenyal dengan topping keju lumer yang creamy dan super bikin ketagihan.'
+            }
+        ];
+
+        let cart = [];
+        let selectedPaymentMethod = '';
+        let currentProductId = null;
+
+        // Fungsi-fungsi utama
+        function renderProducts() {
+            const grid = document.getElementById('productsGrid');
+            grid.innerHTML = foods.map(food => `
+                <div class="product-card">
+                    <img src="${food.image}" alt="${food.name}" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-name">${food.name}</h3>
+                        <p style="color: #666; font-size: 14px;">${food.description}</p>
+                        <div class="spicy-level">
+                            ${Array(5).fill('').map((_, i) => 
+                                `<span class="flame ${i < food.spicyLevel ? '' : 'inactive'}">🔥</span>`
+                            ).join('')}
+                        </div>
+                        <div class="rating">
+                            ⭐ ${food.rating.toFixed(1)} (${food.totalRatings} rating)
+                        </div>
+                        <div class="price">Rp ${food.price.toLocaleString('id-ID')}</div>
+                        <div class="btn-group">
+                            <button class="btn btn-primary" onclick="addToCart(${food.id})">
+                                + Keranjang
+                            </button>
+                            <button class="btn btn-share" onclick="openShareModal(${food.id})">
+                                📤 Bagikan
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function addToCart(foodId) {
+            const food = foods.find(f => f.id === foodId);
+            const cartItem = cart.find(item => item.id === foodId);
+            
+            if (cartItem) {
+                cartItem.quantity++;
+            } else {
+                cart.push({ ...food, quantity: 1 });
+            }
+            
+            updateCartDisplay();
+            alert(`${food.name} ditambahkan ke keranjang!`);
+        }
+
+        function updateCartDisplay() {
+            document.getElementById('cartCount').textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+            
+            const cartItems = document.getElementById('cartItems');
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<p style="text-align: center; color: #999; padding: 40px;">Keranjang kosong</p>';
+                document.getElementById('cartTotal').textContent = 'Total: Rp 0';
+                return;
+            }
+
+            cartItems.innerHTML = cart.map(item => `
+                <div class="cart-item">
+                    <div class="cart-item-info">
+                        <strong>${item.name}</strong>
+                        <div style="color: #666; font-size: 14px;">Rp ${item.price.toLocaleString('id-ID')}</div>
+                    </div>
+                    <div class="quantity-control">
+                        <button class="quantity-btn" onclick="updateQuantity(${item.id}, -1)">-</button>
+                        <span style="min-width: 30px; text-align: center;">${item.quantity}</span>
+                        <button class="quantity-btn" onclick="updateQuantity(${item.id}, 1)">+</button>
+                        <button class="delete-btn" onclick="removeFromCart(${item.id})">🗑️</button>
+                    </div>
+                </div>
+            `).join('');
+
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            document.getElementById('cartTotal').textContent = `Total: Rp ${total.toLocaleString('id-ID')}`;
+        }
+
+        function updateQuantity(foodId, change) {
+            const cartItem = cart.find(item => item.id === foodId);
+            if (cartItem) {
+                cartItem.quantity += change;
+                if (cartItem.quantity <= 0) {
+                    removeFromCart(foodId);
+                } else {
+                    updateCartDisplay();
+                }
+            }
+        }
+
+        function removeFromCart(foodId) {
+            cart = cart.filter(item => item.id !== foodId);
+            updateCartDisplay();
+        }
+
+        function toggleCart() {
+            const modal = document.getElementById('cartModal');
+            modal.classList.toggle('active');
+            if (modal.classList.contains('active')) {
+                updateCartDisplay();
+            }
+        }
+
+        // Fungsi WhatsApp
+        function openWhatsAppModal() {
+            document.getElementById('whatsappModal').classList.add('active');
+        }
+
+        function closeWhatsAppModal() {
+            document.getElementById('whatsappModal').classList.remove('active');
+        }
+
+        function openWhatsApp(type) {
+            let message = '';
+            const phoneNumber = '6289602882098'; // Ganti dengan nomor WhatsApp toko
+            
+            switch(type) {
+                case 'consultation':
+                    message = 'Halo, saya ingin berkonsultasi tentang menu makanan pedas di toko Anda.';
+                    break;
+                case 'order':
+                    if (cart.length > 0) {
+                        message = generateOrderMessage();
+                    } else {
+                        message = 'Halo, saya ingin memesan makanan pedas. Bisa tolong berikan rekomendasi?';
+                    }
+                    break;
+                case 'complaint':
+                    message = 'Halo, saya ingin menyampaikan keluhan/saran mengenai toko makanan pedas Anda.';
+                    break;
+                case 'other':
+                    message = 'Halo, saya memiliki pertanyaan tentang toko makanan pedas Anda.';
+                    break;
+            }
+            
+            const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+            window.open(url, '_blank');
+            closeWhatsAppModal();
+        }
+
+        function sendOrderViaWhatsApp() {
+            if (cart.length === 0) {
+                alert('Keranjang masih kosong!');
+                return;
+            }
+            
+            // Tampilkan modal untuk memilih metode pembayaran
+            showPaymentOptions();
+        }
+
+        function showPaymentOptions() {
+            const paymentMethods = [
+                { id: 'gopay', name: 'GoPay', icon: '💚' },
+                { id: 'ovo', name: 'OVO', icon: '🟣' },
+                { id: 'dana', name: 'DANA', icon: '🔵' },
+                { id: 'cod', name: 'Cash on Delivery', icon: '💵' }
+            ];
+            
+            let paymentOptionsHTML = paymentMethods.map(payment => `
+                <div class="payment-option" onclick="selectPayment('${payment.id}')">
+                    <span style="font-size: 30px;">${payment.icon}</span>
+                    <div>
+                        <strong>${payment.name}</strong>
+                        <div style="font-size: 12px; color: #666;">${payment.id === 'cod' ? 'Bayar saat terima' : 'Pembayaran via ' + payment.name}</div>
+                    </div>
+                </div>
+            `).join('');
+            
+            document.getElementById('cartModal').innerHTML = `
+                <div class="modal-content">
+                    <button class="close-btn" onclick="toggleCart()">×</button>
+                    <h2 style="margin-bottom: 20px;">Pilih Metode Pembayaran</h2>
+                    <div class="payment-methods">
+                        ${paymentOptionsHTML}
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn btn-whatsapp" onclick="sendOrderWithPayment()">
+                            💬 Pesan via WhatsApp
+                        </button>
+                        <button class="btn btn-primary" onclick="toggleCart()">
+                            Kembali ke Keranjang
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            selectedPaymentMethod = '';
+        }
+
+        function selectPayment(method) {
+            selectedPaymentMethod = method;
+            document.querySelectorAll('.payment-option').forEach(opt => opt.classList.remove('selected'));
+            event.target.closest('.payment-option').classList.add('selected');
+        }
+
+        function sendOrderWithPayment() {
+            if (!selectedPaymentMethod) {
+                alert('Pilih metode pembayaran terlebih dahulu!');
+                return;
+            }
+            
+            const message = generateOrderMessage();
+            const phoneNumber = '6289602882098'; // Ganti dengan nomor WhatsApp toko
+            const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+            
+            window.open(url, '_blank');
+            toggleCart();
+            
+            // Reset keranjang setelah pesan dikirim
+            cart = [];
+            updateCartDisplay();
+        }
+
+        function generateOrderMessage() {
+            const paymentNames = {
+                'gopay': 'GoPay',
+                'ovo': 'OVO',
+                'dana': 'DANA',
+                'cod': 'Cash on Delivery'
+            };
+            
+            let message = 'Halo, saya ingin memesan makanan berikut:\n\n';
+            
+            cart.forEach(item => {
+                message += `- ${item.name} (${item.quantity}x) - Rp ${(item.price * item.quantity).toLocaleString('id-ID')}\n`;
+            });
+            
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            message += `\nTotal: Rp ${total.toLocaleString('id-ID')}\n`;
+            message += `Metode Pembayaran: ${paymentNames[selectedPaymentMethod]}\n\n`;
+            message += 'Mohon konfirmasi ketersediaan dan estimasi pengirimannya. Terima kasih!';
+            
+            return message;
+        }
+
+        // Fungsi untuk membagikan produk
+        function openShareModal(productId) {
+            currentProductId = productId;
+            document.getElementById('shareModal').classList.add('active');
+        }
+
+        function closeShareModal() {
+            document.getElementById('shareModal').classList.remove('active');
+        }
+
+        function shareProduct(platform) {
+            const product = foods.find(f => f.id === currentProductId);
+            if (!product) return;
+            
+            const productName = encodeURIComponent(product.name);
+            const productDescription = encodeURIComponent(product.description);
+            const productPrice = encodeURIComponent(`Rp ${product.price.toLocaleString('id-ID')}`);
+            const spicyLevel = encodeURIComponent('🔥'.repeat(product.spicyLevel));
+            const rating = encodeURIComponent(`⭐ ${product.rating.toFixed(1)} (${product.totalRatings} rating)`);
+            
+            const message = `Lihat produk ini dari Bojot Seuhah:\n\n${product.name}\n${product.description}\n${spicyLevel}\n${rating}\nHarga: ${productPrice}`;
+            const encodedMessage = encodeURIComponent(message);
+            const url = window.location.href;
+            
+            let shareUrl = '';
+            
+            switch(platform) {
+                case 'whatsapp':
+                    shareUrl = `https://wa.me/?text=${encodedMessage}`;
+                    break;
+                case 'facebook':
+                    shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&quote=${encodedMessage}`;
+                    break;
+                case 'twitter':
+                    shareUrl = `https://twitter.com/intent/tweet?text=${encodedMessage}&url=${encodeURIComponent(url)}`;
+                    break;
+                case 'telegram':
+                    shareUrl = `https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodedMessage}`;
+                    break;
+                case 'instagram':
+                    // Instagram tidak mendukung sharing langsung, jadi kita arahkan ke app
+                    alert('Untuk membagikan ke Instagram, salin informasi produk dan bagikan secara manual.');
+                    copyProductInfo();
+                    closeShareModal();
+                    return;
+            }
+            
+            if (shareUrl) {
+                window.open(shareUrl, '_blank');
+                closeShareModal();
+            }
+        }
+
+        function copyProductLink() {
+            const product = foods.find(f => f.id === currentProductId);
+            if (!product) return;
+            
+            const productInfo = `Lihat produk ini dari Bojot Seuhah:\n\n${product.name}\n${product.description}\n${'🔥'.repeat(product.spicyLevel)}\n⭐ ${product.rating.toFixed(1)} (${product.totalRatings} rating)\nHarga: Rp ${product.price.toLocaleString('id-ID')}\n\n${window.location.href}`;
+            
+            navigator.clipboard.writeText(productInfo).then(() => {
+                alert('Informasi produk berhasil disalin!');
+                closeShareModal();
+            }).catch(err => {
+                console.error('Gagal menyalin: ', err);
+                alert('Gagal menyalin informasi produk.');
+            });
+        }
+
+        function copyProductInfo() {
+            const product = foods.find(f => f.id === currentProductId);
+            if (!product) return;
+            
+            const productInfo = `Lihat produk ini dari Bojot Seuhah:\n\n${product.name}\n${product.description}\n${'🔥'.repeat(product.spicyLevel)}\n⭐ ${product.rating.toFixed(1)} (${product.totalRatings} rating)\nHarga: Rp ${product.price.toLocaleString('id-ID')}`;
+            
+            navigator.clipboard.writeText(productInfo).then(() => {
+                alert('Informasi produk berhasil disalin! Silakan bagikan di Instagram.');
+            }).catch(err => {
+                console.error('Gagal menyalin: ', err);
+                alert('Gagal menyalin informasi produk.');
+            });
+        }
+
+        // Inisialisasi saat halaman dimuat
+        window.onload = function() {
+            renderProducts();
+        };
+    </script>
+</body>
+</html>
